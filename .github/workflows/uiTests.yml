@@ -1,7 +1,7 @@
 name: CI
 
 on:
-  push
+  pull_request:
 
 jobs:
   test:
@@ -9,11 +9,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api-level: [26, 29, 30]
-        target: [default, google_apis]
+        api-level: [ 26, 29, 30 ]
+        target: [ default, google_apis ]
     steps:
       - name: checkout
         uses: actions/checkout@v2
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - uses: gradle/gradle-build-action@v2
+        with:
+          arguments: assembleDebug
 
       - name: run tests
         uses: reactivecircus/android-emulator-runner@v2
