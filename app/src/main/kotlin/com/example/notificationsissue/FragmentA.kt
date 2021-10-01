@@ -37,7 +37,9 @@ private fun Context.showNotification() {
                 0,
                 Intent(Intent.ACTION_VIEW)
                     .setClass(this, MainActivity::class.java)
-                    .setData("http://app.com/fragmentB".toUri()),
+                    .setData("http://app.com/fragmentB".toUri())
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_ONE_SHOT
             )
         )
