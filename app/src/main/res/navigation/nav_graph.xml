@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragmentA">
+    app:startDestination="@id/fragmentA"
+    >
 
     <fragment
         android:id="@+id/fragmentA"
         android:name="com.example.notificationsissue.FragmentA"
-        tools:layout="@layout/fragment_a">
+        tools:layout="@layout/fragment_a"
+        >
 
         <action
             android:id="@+id/aToB"
-            app:destination="@id/fragmentB" />
+            app:destination="@id/fragmentB"
+            />
 
         <deepLink app:uri="http://app.com/fragmentA" />
     </fragment>
@@ -20,9 +24,9 @@
     <fragment
         android:id="@+id/fragmentB"
         android:name="com.example.notificationsissue.FragmentB"
-        tools:layout="@layout/fragment_b">
+        tools:layout="@layout/fragment_b"
+        >
 
-        <deepLink app:uri="http://app.com/fragmentA/fragmentB" />
+        <deepLink app:uri="http://app.com/fragmentB" />
     </fragment>
-
 </navigation>

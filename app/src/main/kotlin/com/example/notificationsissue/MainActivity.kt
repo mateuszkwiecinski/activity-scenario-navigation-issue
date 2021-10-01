@@ -1,10 +1,12 @@
 package com.example.notificationsissue
 
-import android.app.*
-import android.content.*
-import android.os.*
-import androidx.appcompat.app.*
-import androidx.navigation.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,19 +22,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // Register the channel with the system
-            notificationManager.createNotificationChannel(NotificationChannel(
+        // Register the channel with the system
+        notificationManager.createNotificationChannel(
+            NotificationChannel(
                 channelId,
                 "Stub channel name",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply { description = "stub channel description" }
-            )
-        }
+        )
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        setIntent(intent)
         findNavController(R.id.nav_host).handleDeepLink(intent)
     }
 
