@@ -1,43 +1,48 @@
 package com.example.notificationsissue
 
-import android.app.*
-import androidx.test.core.app.*
-import androidx.test.espresso.*
-import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions.*
-import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.runners.*
-import androidx.test.platform.app.*
-import androidx.test.rule.*
-import androidx.test.uiautomator.*
-import androidx.test.uiautomator.By.*
-import androidx.test.uiautomator.Until.*
-import org.junit.*
-import org.junit.runner.*
+import android.app.Instrumentation
+import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By.text
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until.findObject
+import org.junit.Test
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
 
     @Test
-    fun activityScenario() {
+    fun simpleTest() {
         ActivityScenario.launch(MainActivity::class.java)
+        onView(withText("No data")).check(matches(isDisplayed()))
 
-        openAndClickNotification()
-        onView(withText("Fragment B")).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
-        Espresso.pressBack()
-        onView(withText("Fragment A")).check(matches(withEffectiveVisibility(Visibility.VISIBLE)))
+        onView(withId(R.id.btn)).perform(click())
+        Espresso.pressBackUnconditionally()
+
+        clickNotification()
+        onView(withText("https://some.data1")).check(matches(isDisplayed()))
+
+        onView(withId(R.id.btn)).perform(click())
+        clickNotification()
+        onView(withText("https://some.data2")).check(matches(isDisplayed()))
     }
 
-    private fun openAndClickNotification() {
-        onView(withId(R.id.btn)).perform(click())
-
+    private fun clickNotification() {
         val uiDevice = UiDevice.getInstance(instrumentation)
-
         uiDevice.openNotification()
         uiDevice.wait(findObject(text("Foo Title")), 3_000).let(::checkNotNull)
         uiDevice.wait(findObject(text("Bar Content")), 3_000).let(::checkNotNull)
         uiDevice.findObject(text("Foo Title")).click()
+        uiDevice.wait(findObject(text("NotificationsIssue")), 3_000)
     }
 }
 
